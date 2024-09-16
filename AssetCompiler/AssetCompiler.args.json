@@ -1,0 +1,14 @@
+{
+  "FileVersion": 2,
+  "Id": "b9bc3e7a-b519-4e17-9394-ef49c2cff31a",
+  "Items": [
+    {
+      "Id": "4e8d27bb-7b5b-4538-9b74-9b790927ffb1",
+      "Command": "compile"
+    },
+    {
+      "Id": "9443fbc1-2f7f-40de-9791-450d898bc61c",
+      "Command": "./assets/"
+    }
+  ]
+}

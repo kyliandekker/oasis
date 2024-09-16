@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "deadb004-4fd3-4cec-bdb1-81b2a875e3e1",
+  "Items": [
+    {
+      "Id": "7059ce33-ef24-4abc-be27-bd998b45fb89",
+      "Command": "compile"
+    }
+  ]
+}
