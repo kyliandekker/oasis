@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include "graphics/Window.h"
+
 namespace oasis
 {
 	namespace engine
@@ -25,7 +27,7 @@ namespace oasis
 		class Engine
 		{
 		public:
-			void Initialize(int argsN, va_list& list);
+			bool Initialize(HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height);
 			void PollScreen();
 
 			void Finalize();
@@ -40,10 +42,11 @@ namespace oasis
 			float GetTime();
 			std::chrono::steady_clock::time_point GetStartTime();
 
+			graphics::Window& GetWindow();
+
 			void UpdateDeltaTime();
 			void UpdateScenes();
 
-			void UpdatePlayer();
 			FPSCounter m_FPSCounter;
 
 			std::vector<Scene*> m_ActiveScenes;
@@ -52,8 +55,9 @@ namespace oasis
 
 			std::chrono::steady_clock::time_point m_TimeSinceAppStart = std::chrono::steady_clock::now();
 			std::chrono::steady_clock::time_point m_LastFrame = std::chrono::steady_clock::now();
+			graphics::Window m_Window;
 		};
 
-		extern Engine engine;
+		inline extern Engine engine = {};
 	}
 }

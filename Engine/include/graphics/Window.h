@@ -1,16 +1,17 @@
 #pragma once
 
 #include <stdint.h>
+#include <glm/vec2.hpp>
+
+#include "dx12/DX12Window.h"
 
 #if defined(CreateWindow)
 #undef CreateWindow
 #endif
 
-struct HINSTANCE__;
-typedef HINSTANCE__* HINSTANCE;
-
-struct HWND__;
-typedef HWND__* HWND;
+#ifdef __EDITOR__
+#include "editor/imgui/ImGuiWindow.h"
+#endif // __EDITOR__
 
 namespace oasis
 {
@@ -19,41 +20,44 @@ namespace oasis
 		class Window
 		{
 		public:
-			explicit Window() = default;
 			~Window() = default;
 
-			void Initialize(HINSTANCE hInst, uint32_t width, uint32_t height);
+			bool Initialize(HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height);
 			void PollEvents();
-			void Finalize();
+			void Destroy();
 
 			void Show();
 			void Hide();
 			void ToggleFullscreen();
 
-			uint32_t GetWidth() const { return m_Width; }
-			void SetWidth(uint32_t width) { m_Width = width; }
-			uint32_t GetHeight() const { return m_Height; }
-			void SetHeight(uint32_t height) { m_Height = height; }
+			glm::vec2 GetRealSize() const;
 
-			bool ShouldClose() const { return m_ShouldClose; }
-			bool HasResized() const { return m_HasResized; }
-			void SetHasResized(bool resized) { m_HasResized = resized; }
-			HWND GetHWnd() const { return m_hWnd; }
+			HWND& GetHWnd() { return m_hWnd; }
+			WNDCLASSEX& GetWc() { return m_Wc; }
+			dx12::DX12Window& GetDX12Window() { return m_DX12Window; }
+#ifdef __EDITOR__
+			imgui::ImGuiWindow& GetImGuiWindow() { return m_ImGuiWindow; }
+#endif // __EDITOR__
+
+			bool Ready() const { return  m_Ready; }
+			void SetReady(bool a_Ready) { m_Ready = a_Ready; }
+
+			void (*MsgCallback)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) = nullptr;
 		private:
+			dx12::DX12Window m_DX12Window;
+#ifdef __EDITOR__
+			imgui::ImGuiWindow m_ImGuiWindow;
+#endif // __EDITOR__
+
 			void RegisterWindowClass(HINSTANCE hInst);
-			void CreateWindow(HINSTANCE hInst, uint32_t width, uint32_t height);
+			bool CreateWindow(HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height, const char* a_WindowTitle);
 			
 			HWND m_hWnd = HWND();
+			WNDCLASSEX m_Wc = WNDCLASSEX();
 
-			uint32_t m_Width = 1280;
-			uint32_t m_Height = 720;
-
-			bool m_ShouldClose = false;
 			bool m_Fullscreen = false;
-			bool m_HasResized = false;
+			bool m_Ready = false;
 		};
-		void ThreadedWindowCreation(Window* window, HINSTANCE hInst, uint32_t width, uint32_t height);
-		void ThreadedWindowMessages(Window* window);
-		extern bool WindowCreationFinished;
+		void ThreadedWindowCreation(Window* a_Window, HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height);
 	}
 }

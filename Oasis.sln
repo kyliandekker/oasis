@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{DEADB004-4FD3-4CEC-BDB1-81B2A875E3E1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{0505B998-0B50-43DC-8CE9-963016100CAB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DEADB004-4FD3-4CEC-BDB1-81B2A875E3E1} = {DEADB004-4FD3-4CEC-BDB1-81B2A875E3E1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssetCompiler", "AssetCompiler\AssetCompiler.vcxproj", "{B9BC3E7A-B519-4E17-9394-EF49C2CFF31A}"
 EndProject

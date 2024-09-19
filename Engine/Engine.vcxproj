@@ -27,29 +27,71 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AssetType.h" />
+    <ClInclude Include="include\core\BaseSystem.h" />
+    <ClInclude Include="include\core\Engine.h" />
+    <ClInclude Include="include\core\GameEngine.h" />
+    <ClInclude Include="include\Data.h" />
+    <ClInclude Include="include\DataStream.h" />
+    <ClInclude Include="include\dx12\DX12Window.h" />
+    <ClInclude Include="include\editor\imgui\ImGuiDefines.h" />
+    <ClInclude Include="include\editor\imgui\ImGuiUIView.h" />
+    <ClInclude Include="include\editor\imgui\ImGuiWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\BaseWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\ConsoleWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\HierarchyWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\InspectorWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\MainWindow.h" />
+    <ClInclude Include="include\editor\imgui\tools\SceneWindow.h" />
+    <ClInclude Include="include\editor\settings\EditorSettings.h" />
+    <ClInclude Include="include\FileStructure.h" />
+    <ClInclude Include="include\gameplay_systems\ResourceLoader.h" />
+    <ClInclude Include="include\graphics\Window.h" />
+    <ClInclude Include="include\Hash.h" />
+    <ClInclude Include="include\ReserveDataStream.h" />
+    <ClInclude Include="include\system\FileLoader.h" />
+    <ClInclude Include="include\system\Logger.h" />
+    <ClInclude Include="include\utils\Abstractions.h" />
+    <ClInclude Include="include\utils\RapidJsonUtils.h" />
+    <ClInclude Include="include\utils\string_extensions.h" />
+    <ClInclude Include="include\utils\Utils.h" />
+    <ClInclude Include="include\core\Scene.h" />
+    <ClInclude Include="include\editor\font_file.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\shared\external\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="..\shared\external\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_helpers.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_stdlib.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\shared\external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\shared\external\imgui\piano.cpp" />
+    <ClCompile Include="..\shared\external\imgui\TextEditor.cpp" />
     <ClCompile Include="src\core\Engine.cpp" />
+    <ClCompile Include="src\core\GameEngine.cpp" />
     <ClCompile Include="src\Data.cpp" />
     <ClCompile Include="src\DataStream.cpp" />
+    <ClCompile Include="src\dx12\DX12Window.cpp" />
+    <ClCompile Include="src\editor\imgui\ImGuiDefines.cpp" />
+    <ClCompile Include="src\editor\imgui\ImGuiUIView.cpp" />
+    <ClCompile Include="src\editor\imgui\ImGuiWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\BaseWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\ConsoleWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\HierarchyWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\InspectorWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\MainWindow.cpp" />
+    <ClCompile Include="src\editor\imgui\tools\SceneWindow.cpp" />
+    <ClCompile Include="src\editor\settings\EditorSettings.cpp" />
+    <ClCompile Include="src\gameplay_systems\ResourceLoader.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\ReserveDataStream.cpp" />
     <ClCompile Include="src\system\FileLoader.cpp" />
     <ClCompile Include="src\system\Logger.cpp" />
     <ClCompile Include="src\utils\Abstractions.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\AssetType.h" />
-    <ClInclude Include="include\core\Engine.h" />
-    <ClInclude Include="include\FileStructure.h" />
-    <ClInclude Include="include\graphics\Window.h" />
-    <ClInclude Include="include\system\FileLoader.h" />
-    <ClInclude Include="include\system\Logger.h" />
-    <ClInclude Include="include\utils\Abstractions.h" />
-    <ClInclude Include="include\Data.h" />
-    <ClInclude Include="include\DataStream.h" />
-    <ClInclude Include="include\Hash.h" />
-    <ClInclude Include="include\ReserveDataStream.h" />
-    <ClInclude Include="include\utils\string_extensions.h" />
-    <ClInclude Include="include\utils\Utils.h" />
+    <ClCompile Include="src\utils\RapidJsonUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -125,11 +167,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -142,11 +184,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>__ENGINE__;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;__ENGINE__;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -161,11 +203,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -180,11 +222,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -197,11 +239,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>__ENGINE__;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;__EDITOR__;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -216,11 +258,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RAPIDJSON_NOMEMBERITERATORCLASS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)shared;$(ProjectDir)include;$(ProjectDir)external;$(SolutionDir)shared/external</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

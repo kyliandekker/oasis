@@ -42,8 +42,9 @@ namespace oasis
 			void PrintMessage(LogSeverity a_Severity, const char* a_Message, const char* a_File, int a_Line);
 			void MessageQueue();
 
-			void (*m_LoggerCallback)(const Message&);
-			void (*m_LoggerCallback2)(const Message&);
+			bool Running() const;
+
+			std::function<void(const Message&)> m_LoggerCallback;
 		private:
 			bool m_Running = false;
 			std::queue<Message> m_Messages;
@@ -51,6 +52,8 @@ namespace oasis
 			std::mutex m_MessagesMutex;
 		};
 		extern Logger logger;
+	}
+}
 
 #define LOGF(a_Severity, a_Message, ...)\
 do{\
@@ -61,7 +64,5 @@ do{\
 
 #define LOG(a_Message, ...)\
 do{\
-	logger::logger.LogF(logger::LogSeverity::LOGSEVERITY_INFO, a_Message, __FILE__, __LINE__, __VA_ARGS__);\
+	logger::logger.LogF(logger::LOGSEVERITY_INFO, a_Message, __FILE__, __LINE__, __VA_ARGS__);\
 } while (0)
-	}
-}

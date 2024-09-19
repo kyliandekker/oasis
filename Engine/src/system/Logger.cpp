@@ -15,7 +15,6 @@ namespace oasis
 	{
 		Logger::Logger()
 		{
-			m_Running = true;
 			m_Thread = std::thread(&Logger::MessageQueue, this);
 		}
 
@@ -66,8 +65,20 @@ namespace oasis
 			m_MessagesMutex.unlock();
 		}
 
+		char arr[7][15] =
+		{
+			"INFO",
+			"WARNING",
+			"ERROR",
+			"ASSERT",
+			"SUCCESS",
+			"INFO SUCCESS",
+			"AWESOME",
+		};
+
 		void Logger::MessageQueue()
 		{
+			m_Running = true;
 			while (m_Running)
 			{
 				m_MessagesMutex.lock();
@@ -77,7 +88,12 @@ namespace oasis
 					m_Messages.pop();
 
 					DWORD written = 0;
-					std::string formatted_message = "\"" + lm.m_RawMessage + "\" in file " + lm.m_Location + ".\n";
+
+					std::string formatted_message = std::format("[{0}] \"{1}\" in file {2}.\n",
+						arr[lm.a_Severity],
+						lm.m_RawMessage,
+						lm.m_Location);
+
 					WriteConsoleA(
 						GetStdHandle(STD_OUTPUT_HANDLE),
 						formatted_message.c_str(),
@@ -85,17 +101,19 @@ namespace oasis
 						&written,
 						nullptr
 					);
+
 					if (m_LoggerCallback)
 					{
 						m_LoggerCallback(lm);
 					}
-					if (m_LoggerCallback2)
-					{
-						m_LoggerCallback2(lm);
-					}
 				}
 				m_MessagesMutex.unlock();
 			}
+		}
+
+		bool Logger::Running() const
+		{
+			return m_Running;
 		}
 	}
 }
