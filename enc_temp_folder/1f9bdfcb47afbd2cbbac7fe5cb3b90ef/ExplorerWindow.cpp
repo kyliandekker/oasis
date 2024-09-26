@@ -152,7 +152,7 @@ namespace oasis
 
 			float x = ImGui::GetContentRegionAvail().x;
 			float explorerWidth = x * 0.15f;
-			if (ImGui::BeginChild("Test", ImVec2(explorerWidth, 0), true, ImGuiChildFlags_ResizeX))
+			if (ImGui::BeginChild("Test", ImVec2(explorerWidth, 0)))
 			{
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 				RenderResource(m_ExplorerResource, true, true);

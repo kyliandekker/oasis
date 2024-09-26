@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core/BaseSystem.h"
+
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <string>
@@ -17,19 +19,20 @@ namespace oasis
 			unsigned __int64 FenceValue;
 		};
 
-		class DX12Window
+		class DX12Window : public core::BaseSystem
 		{
 		public:
 			DX12Window();
 
-			void Init(HWND hwnd);
+			bool Initialize(int nArgs, ...) override;
+			bool Destroy() override;
+
 			void CreateRenderTarget();
 			void Render();
 			void WaitForLastSubmittedFrame();
 			void CleanupRenderTarget();
 			bool CreateDeviceD3D(HWND hWnd);
 			void CleanupDeviceD3D();
-			void Destroy();
 			bool CleanupTextures();
 			FrameContext* WaitForNextFrameResources();
 

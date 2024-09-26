@@ -9,7 +9,9 @@
 #include <core/Engine.h>
 #include <graphics/Window.h>
 #include <system/Logger.h>
+#include <gameplay/GameEngine.h>
 
+#include "MainScene.h"
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int nShowCmd)
 {
@@ -24,15 +26,17 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPWSTR, _
 	oasis::settings::settings.Load();
 	screenSize = oasis::settings::settings.Size();
 #endif
-	oasis::engine::engine.Initialize(hInstance, screenSize.x, screenSize.y);
+	oasis::core::engine.Initialize(3, hInstance, static_cast<uint32_t>(screenSize.x), static_cast<uint32_t>(screenSize.y));
 
-	oasis::graphics::Window& window = oasis::engine::engine.GetWindow();
+	oasis::graphics::Window& window = oasis::core::engine.GetWindow();
 	window.Show();
 
-	// Main thread will be gameplay.
-	while (true)
-	{
-	}
+	oasis::gameplay::gameEngine.Initialize(0);
+
+	oasis::gameplay::gameEngine.Start();
+
+	oasis::gameplay::gameEngine.Run();
+	oasis::gameplay::gameEngine.Destroy();
 
 	return 0;
 }

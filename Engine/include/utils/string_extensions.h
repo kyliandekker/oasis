@@ -71,5 +71,11 @@ namespace oasis
 
 			return strToConvert;
 		}
+
+		inline std::string getPath(std::string a_Path)
+		{
+			std::string f = a_Path.substr(0, a_Path.find_last_of("\\"));
+			return f.substr(0, a_Path.find_last_of("/"));
+		}
 	}
 }

@@ -144,10 +144,6 @@ namespace oasis
 				}
 			}
 
-			if (a_Window.ShowContextMenu())
-			{
-				ImGui::OpenPopup(IMGUI_FORMAT_ID("", POPUP_WINDOW_ID, "CONTEXT_MENU_HIERARCHY").c_str());
-			}
 			temp = tempVar;
 		}
 
@@ -286,6 +282,11 @@ namespace oasis
 					}
 				}
 				ImGui::PopStyleVar();
+
+				if (m_ShowContextMenu)
+				{
+					ImGui::OpenPopup(IMGUI_FORMAT_ID("", POPUP_WINDOW_ID, "CONTEXT_MENU_HIERARCHY").c_str());
+				}
 
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(5, 5));
 				if (SELECTED_HIERARCHY_ITEM != -1 && ImGui::BeginPopup(IMGUI_FORMAT_ID("", POPUP_WINDOW_ID, "CONTEXT_MENU_HIERARCHY").c_str()))

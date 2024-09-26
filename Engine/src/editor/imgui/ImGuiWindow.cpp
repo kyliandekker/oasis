@@ -17,13 +17,13 @@ namespace oasis
 {
 	namespace imgui
 	{
-		ImGuiWindow::ImGuiWindow() : mainWindow(*this), consoleWindow(*this), sceneWindow(*this), inspectorWindow(*this), hierarchyWindow(*this)
+		ImGuiWindow::ImGuiWindow() : mainWindow(*this), consoleWindow(*this), sceneWindow(*this), inspectorWindow(*this), hierarchyWindow(*this), explorerWindow(*this)
 		{ }
 
 		ImGuiWindow::~ImGuiWindow()
 		{ }
 
-		bool ImGuiWindow::Initialize()
+		bool ImGuiWindow::Initialize(int nArgs, ...)
 		{
 			IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
@@ -35,7 +35,7 @@ namespace oasis
 
 			CreateImGui();
 
-			oasis::graphics::Window& window = oasis::engine::engine.GetWindow();
+			graphics::Window& window = core::engine.GetWindow();
 			dx12::DX12Window& dx12window = window.GetDX12Window();
 
 			logger::logger.m_LoggerCallback = std::bind(&ConsoleWindow::LoggerCallback, &consoleWindow, std::placeholders::_1);
@@ -44,9 +44,19 @@ namespace oasis
 			return true;
 		}
 
+		bool ImGuiWindow::Destroy()
+		{
+			ImGui_ImplDX12_Shutdown();
+			ImGui_ImplWin32_Shutdown();
+			ImGui::DestroyContext();
+
+			LOGF(logger::LOGSEVERITY_SUCCESS, "Uninitialized ImGui.");
+			return true;
+		}
+
 		bool ImGuiWindow::CreateContextWin32()
 		{
-			if (!ImGui_ImplWin32_Init(engine::engine.GetWindow().GetHWnd()))
+			if (!ImGui_ImplWin32_Init(core::engine.GetWindow().GetHWnd()))
 			{
 				LOGF(logger::LOGSEVERITY_ERROR, "Could not create a Win32 context for ImGui.");
 				return false;
@@ -58,7 +68,7 @@ namespace oasis
 
 		bool ImGuiWindow::CreateContextDX12()
 		{
-			dx12::DX12Window& dx12window = engine::engine.GetWindow().GetDX12Window();
+			dx12::DX12Window& dx12window = core::engine.GetWindow().GetDX12Window();
 			if (!ImGui_ImplDX12_Init(dx12window.g_pd3dDevice, dx12window.NUM_FRAMES_IN_FLIGHT,
 				DXGI_FORMAT_R8G8B8A8_UNORM, dx12window.g_pd3dSrvDescHeap,
 				dx12window.g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
@@ -216,7 +226,7 @@ namespace oasis
 
 			ImGui::PushFont(m_IconFont);
 
-			graphics::Window& window = engine::engine.GetWindow();
+			graphics::Window& window = core::engine.GetWindow();
 			glm::vec2 size = window.GetRealSize();
 			mainWindow.SetSize(ImVec2(size.x, size.y));
 			mainWindow.Update();
@@ -225,22 +235,13 @@ namespace oasis
 			sceneWindow.Update();
 			inspectorWindow.Update();
 			consoleWindow.Update();
-			//explorerWindow.Update();
+			explorerWindow.Update();
 
 			ImGui::PopFont();
 
 			ImGui::EndFrame();
 
 			ImGui::Render();
-		}
-
-		void ImGuiWindow::Destroy()
-		{
-			ImGui_ImplDX12_Shutdown();
-			ImGui_ImplWin32_Shutdown();
-			ImGui::DestroyContext();
-
-			LOGF(logger::LOGSEVERITY_SUCCESS, "Uninitialized ImGui.");
 		}
 	}
 }

@@ -20,9 +20,27 @@ namespace oasis
 		{
 		}
 
-		void DX12Window::Init(HWND hwnd)
+		bool DX12Window::Initialize(int nArgs, ...)
 		{
-			CreateDeviceD3D(hwnd);
+			va_list list;
+			va_start(list, nArgs);
+
+			HWND& hwnd = va_arg(list, HWND);
+
+			va_end(list);
+
+			bool b = CreateDeviceD3D(hwnd);
+			if (b)
+			{
+				LOGF(logger::LOGSEVERITY_SUCCESS, "Initialized DX12.");
+			}
+			return b;
+		}
+
+		bool DX12Window::Destroy()
+		{
+			CleanupDeviceD3D();
+			return true;
 		}
 
 		void DX12Window::CreateRenderTarget()
@@ -259,7 +277,7 @@ namespace oasis
 			}
 
 			CreateRenderTarget();
-			LOGF(logger::LOGSEVERITY_SUCCESS, "Initialized DX12.");
+			LOGF(logger::LOGSEVERITY_SUCCESS, "Created D3D Device for DX12.");
 			return true;
 		}
 
@@ -330,11 +348,6 @@ namespace oasis
 #endif
 			LOGF(logger::LOGSEVERITY_SUCCESS, "Cleaned up D3D device from DX12.");
 		}
-
-        void DX12Window::Destroy()
-        {
-			CleanupDeviceD3D();
-        }
 
 		bool DX12Window::CleanupTextures()
 		{

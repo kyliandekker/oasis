@@ -4,11 +4,12 @@
 
 #include "graphics/Window.h"
 #include "system/Logger.h"
+#include <cstdarg>
 #include "core/Scene.h"
 
 namespace oasis
 {
-	namespace engine
+	namespace core
 	{
 		float FPSCounter::GetFPS()
 		{
@@ -29,8 +30,18 @@ namespace oasis
 		}
 
 		FILE* console = nullptr;
-		bool Engine::Initialize(HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height)
-		{
+
+        bool Engine::Initialize(int nArgs, ...)
+        {
+			va_list list;
+			va_start(list, nArgs);
+
+			HINSTANCE& hInst = va_arg(list, HINSTANCE);
+			uint32_t& width = va_arg(list, uint32_t);
+			uint32_t& height = va_arg(list, uint32_t);
+
+			va_end(list);
+
 #ifdef _DEBUG
 			AllocConsole();
 			freopen_s(&console, "CONOUT$", "w", stdout);
@@ -41,7 +52,7 @@ namespace oasis
 			dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 			SetConsoleMode(hOut, dwMode);
 #endif
-			std::thread windowThread(&graphics::ThreadedWindowCreation, &m_Window, a_hInstance, a_Width, a_Height);
+			std::thread windowThread(&graphics::ThreadedWindowCreation, &m_Window, hInst, width, height);
 			windowThread.detach();
 
 			while (!m_Window.Ready())
@@ -51,39 +62,20 @@ namespace oasis
 			}
 			LOGF(logger::LOGSEVERITY_SUCCESS, "Engine initialized.");
 
+			//			CopyWindowNameToString(windowTitle);
+			//			logger::LogInfo("RenderSystem.Initialize is called.");
+			//			ECS.GetSystem<RenderSystem>().Initialize(m_Window->GetHWnd(), width, height, false);
+			//#ifdef __ENGINE__
+			//			logger::LogInfo("GUISystem.Initialize is called.");
+			//			ECS.GetSystem<GUISystem>().Initialize(m_Window->GetHWnd());
+			//#endif
+			//			logger::LogInfo("ResourceManager.LoadAllResources is called.");
+			//			ECS.GetSystem<ResourceManager>().LoadAllResources();
+
 			return true;
+        }
 
-//			CopyWindowNameToString(windowTitle);
-//			logger::LogInfo("RenderSystem.Initialize is called.");
-//			ECS.GetSystem<RenderSystem>().Initialize(m_Window->GetHWnd(), width, height, false);
-//#ifdef __ENGINE__
-//			logger::LogInfo("GUISystem.Initialize is called.");
-//			ECS.GetSystem<GUISystem>().Initialize(m_Window->GetHWnd());
-//#endif
-//			logger::LogInfo("ResourceManager.LoadAllResources is called.");
-//			ECS.GetSystem<ResourceManager>().LoadAllResources();
-		}
-
-		void Engine::PollScreen()
-		{
-		}
-
-		void Engine::Finalize()
-		{
-			FinalizeBase();
-
-#ifdef __ENGINE__
-			//ECS.GetSystem<GUISystem>().Finalize();
-#endif
-			//ECS.GetSystem<RenderSystem>().Finalize();
-			//m_Window->Finalize();
-
-#ifdef _DEBUG
-			fclose(console);
-#endif
-		}
-
-		void Engine::FinalizeBase()
+		bool Engine::Destroy()
 		{
 			for (Scene* scene : m_ActiveScenes)
 			{
@@ -91,12 +83,13 @@ namespace oasis
 			}
 			m_ActiveScenes.clear();
 			m_Update = false;
-		}
 
-		void Engine::AddScene(Scene* a_Scene)
-		{
-			m_ActiveScenes.push_back(a_Scene);
-			a_Scene->Start();
+			m_Window.Destroy();
+
+#ifdef _DEBUG
+			fclose(console);
+#endif
+			return true;
 		}
 
 		void Engine::RemoveScene(Scene* a_Scene)
@@ -108,19 +101,10 @@ namespace oasis
 				{
 					Scene* toBeDeleted = *it;
 					m_ActiveScenes.erase(it);
-					delete toBeDeleted;
+					DeleteObject(toBeDeleted);
 					break;
 				}
 			}
-			if (a_Scene != nullptr)
-			{
-				LOGF(logger::LOGSEVERITY_ERROR, "Could not find scene when trying to remove scene.");
-			}
-		}
-
-		Scene* Engine::GetSceneById(uint64_t a_Index) const
-		{
-			return m_ActiveScenes.at(a_Index);
 		}
 
 		float Engine::GetDeltaTime()
@@ -156,14 +140,17 @@ namespace oasis
 
 		void Engine::UpdateScenes()
 		{
-			for (auto& iter : m_ActiveScenes)
+			for (auto* scene : m_ActiveScenes)
 			{
-				if (iter->m_IsPaused)
+				if (scene)
 				{
-					break;
+					if (scene->m_IsPaused)
+					{
+						break;
+					}
+					scene->Update();
+					scene->Render();
 				}
-				iter->Update();
-				iter->Render();
 			}
 		}
 	}

@@ -39,6 +39,10 @@ namespace oasis
 #define ICON_FA_ERASE "\xEF\x84\xAD"
 #define ICON_FA_DOWN_TO_BOTTOM "\xEF\x8D\x8A"
 #define ICON_FA_FOLDER "\xEF\x81\xBB"
+#define ICON_FA_FOLDER_OPEN "\xEF\x81\xBC"
+#define ICON_FA_ARROW_TURN_UP "\xEF\x85\x88"
+#define ICON_FA_FILE_ARROW_UP "\xEF\x95\xB4"
+#define ICON_FA_FOLDER_PLUS "\xef\x99\x9e"
 
 #define ICON_FA_SCENE "\xEF\x80\x8A"
 #define ICON_FA_HIERARCHY "\xEF\x80\xBA"

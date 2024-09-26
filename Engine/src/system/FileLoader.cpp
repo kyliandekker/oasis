@@ -1,5 +1,10 @@
 #include "system/FileLoader.h"
 
+#include <filesystem>
+#include <ShlObj_core.h>
+
+namespace fs = std::filesystem;
+
 namespace oasis
 {
 	namespace file
@@ -39,6 +44,17 @@ namespace oasis
 			fclose(file);
 
 			return true;
+		}
+
+        bool FileLoader::CreateFolder(const std::string& a_Path)
+        {
+			bool success = fs::create_directories(a_Path);
+            return false;
+        }
+		bool FileLoader::OpenInExplorer(const std::string& a_Path)
+		{
+			ShellExecuteA(NULL, "open", a_Path.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+			return false;
 		}
 	}
 }

@@ -170,11 +170,10 @@ namespace ImGui
 
 		// Define the position and size of your button
 		ImVec2 button_pos = ImGui::GetCursorScreenPos();
-		ImVec2 button_size = ImVec2(size_arg.x, size_arg.y); // Width, Height
 
 		// Calculate the rectangle for the button
 		ImVec2 button_min = button_pos;
-		ImVec2 button_max = ImVec2(button_pos.x + button_size.x, button_pos.y + button_size.y);
+		ImVec2 button_max = ImVec2(button_pos.x + size_arg.x, button_pos.y + size_arg.y);
 
 		// Detect if the mouse is hovering over the button rectangle
 		bool is_hovered = ImGui::IsMouseHoveringRect(button_min, button_max);
@@ -193,6 +192,49 @@ namespace ImGui
 		draw_list->AddRectFilled(button_min, button_max, button_color, 0);  // 10.0f is the rounding radius
 
 		return InvisibleButton(label, size_arg);
+	}
+
+	bool EngineTreeNodeExS(const char* id, const char* icon, const char* label, bool& clicked, bool& right_clicked, bool selected, ImVec2 size, ImGuiTreeNodeFlags flags)
+	{
+		// Get the current draw list
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+		// Record the current cursor position (top-left of the node)
+		ImVec2 pos = ImGui::GetCursorScreenPos();  // Use GetCursorScreenPos instead of GetCursorPos for absolute positioning
+
+		// Begin the tree node
+		const bool fold = ImGui::TreeNodeExS(id, size, flags);
+
+		// Detect clicks on the item
+		clicked = ImGui::IsItemHovered() && ImGui::IsItemClicked(0);
+		right_clicked = ImGui::IsItemHovered() && ImGui::IsItemClicked(1);
+
+		// Get the size of the current item (the tree node)
+		ImVec2 itemSize = ImGui::GetItemRectSize();  // Get the actual item size
+
+		// Calculate rectangle positions (min and max points)
+		ImVec2 select_min = pos;
+		ImVec2 select_max = ImVec2(pos.x + itemSize.x, pos.y + itemSize.y);
+
+		// If selected, draw the background overlay
+		if (selected)
+		{
+			ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);  // Get the style color
+			ImU32 select_color = ImGui::ColorConvertFloat4ToU32(color);  // Convert to ImU32 color
+
+			// Draw the rectangle behind the text/icon
+			draw_list->AddRectFilled(select_min, select_max, select_color, 0);  // No rounding
+		}
+
+		// Adjust icon and label positions after the tree node is drawn
+		float iconPos = pos.x + 35;
+		ImGui::SetCursorScreenPos(ImVec2(iconPos, pos.y));  // Set icon position using screen coordinates
+		ImGui::Text(icon);
+		ImGui::SetCursorScreenPos(ImVec2(iconPos + 25, pos.y));  // Set label position
+		ImGui::Text(label);
+
+		// Return whether the node is open/closed
+		return fold;
 	}
 
 	int InvisInputText(const char* label, char* buf, size_t buf_size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)

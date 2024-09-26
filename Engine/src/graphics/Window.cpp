@@ -35,7 +35,7 @@ namespace oasis
 			{
 				case WM_EXITSIZEMOVE:
 				{
-					Window& window = engine::engine.GetWindow();
+					Window& window = core::engine.GetWindow();
 					window.SetReady(false);
 
 					dx12::DX12Window& dx12window = window.GetDX12Window();
@@ -99,7 +99,7 @@ namespace oasis
 			CreateWindow(a_hInstance, a_Width, a_Height, "Oasis");
 
 			// Initialize DX12.
-			if (!m_DX12Window.CreateDeviceD3D(m_hWnd))
+			if (!m_DX12Window.Initialize(1, m_hWnd))
 			{
 				LOGF(logger::LOGSEVERITY_ASSERT, "Creating DX12 Window failed.");
 				m_DX12Window.CleanupDeviceD3D();
@@ -108,7 +108,7 @@ namespace oasis
 
 #ifdef __EDITOR__
 			// Initialize editor.
-			if (!m_ImGuiWindow.Initialize())
+			if (!m_ImGuiWindow.Initialize(0))
 			{
 				LOGF(logger::LOGSEVERITY_ASSERT, "Could not create ImGui.");
 				return false;

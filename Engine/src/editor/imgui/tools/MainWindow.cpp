@@ -24,6 +24,10 @@ namespace oasis
 			ImGui::DockSpace(ImGui::GetID("DockSpace"));
 
 			ImGui::BeginMainMenuBar();
+			if (ImGui::BeginMenu(IMGUI_FORMAT_ID("Scene", MENU_ID, "SCENE").c_str()))
+			{
+				ImGui::EndMenu();
+			}
 			ImGui::EndMainMenuBar();
 		}
 	}

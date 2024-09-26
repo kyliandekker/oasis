@@ -1,14 +1,17 @@
 #pragma once
 
+#include "core/BaseSystem.h"
+
 #include <chrono>
 #include <stdint.h>
 #include <vector>
 
 #include "graphics/Window.h"
+#include "core/Scene.h"
 
 namespace oasis
 {
-	namespace engine
+	namespace core
 	{
 		class Scene;
 
@@ -24,19 +27,17 @@ namespace oasis
 			float m_TimeAccumulation = 0.0f;
 		};
 
-		class Engine
+		class Engine : public BaseSystem
 		{
 		public:
-			bool Initialize(HINSTANCE a_hInstance, uint32_t a_Width, uint32_t a_Height);
-			void PollScreen();
+			bool Initialize(int nArgs, ...) override;
+			bool Destroy() override;
 
-			void Finalize();
-			void FinalizeBase();
-
-			void AddScene(Scene* a_Scene);
+			void AddScene(Scene* a_Scene)
+			{
+				m_ActiveScenes.push_back(a_Scene);
+			}
 			void RemoveScene(Scene* a_Scene);
-
-			Scene* GetSceneById(uint64_t a_Index) const;
 
 			float GetDeltaTime();
 			float GetTime();

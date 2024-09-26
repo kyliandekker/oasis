@@ -2,7 +2,7 @@
 
 namespace oasis
 {
-	namespace engine
+	namespace core
 	{
 		class Scene
 		{
