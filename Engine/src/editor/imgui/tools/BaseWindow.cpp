@@ -39,12 +39,16 @@ namespace oasis
 				ImGui::SetNextWindowSize(ImVec2(m_Size.x, m_Size.y));
 			}
 
+			bool showRender = true;
 			if (!m_RenderWindowItself)
 			{
-				WindowBegin();
+				showRender = WindowBegin();
 			}
 
-			Render();
+			if (showRender)
+			{
+				Render();
+			}
 
 			if (!m_RenderWindowItself)
 			{

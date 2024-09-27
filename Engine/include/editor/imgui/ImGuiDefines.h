@@ -43,12 +43,16 @@ namespace oasis
 #define ICON_FA_ARROW_TURN_UP "\xEF\x85\x88"
 #define ICON_FA_FILE_ARROW_UP "\xEF\x95\xB4"
 #define ICON_FA_FOLDER_PLUS "\xef\x99\x9e"
+#define ICON_FA_ARROW_RIGHT "\xEF\x81\xA1"
 
+/* WINDOW ICONS */
 #define ICON_FA_SCENE "\xEF\x80\x8A"
 #define ICON_FA_HIERARCHY "\xEF\x80\xBA"
 #define ICON_FA_INSPECTOR "\xEF\x81\x9A"
 #define ICON_FA_CONSOLE "\xEE\x88\xB6"
+#define ICON_FA_EXPLORER ICON_FA_FOLDER
 
+/* LOGGER */
 #define ICON_FA_INFO "\xEF\x81\x9A"
 #define ICON_FA_WARNING "\xEF\x81\xAA"
 #define ICON_FA_ERROR "\xEF\x81\x97"
@@ -56,6 +60,20 @@ namespace oasis
 #define ICON_FA_SUCCESS "\xEF\x81\x98"
 #define ICON_FA_INFO_SUCCESS "\xEE\x84\x8D"
 #define ICON_FA_AWESOME "\xEF\x93\x87"
+
+/* RESOURCE ICONS */
+#define ICON_FA_CFG "\xEF\x80\x93"
+#define ICON_FA_MAP "\xEE\x99\x8C"
+#define ICON_FA_MAT "\xEF\x9C\x9E"
+#define ICON_FA_TEX "\xEF\x87\x85"
+#define ICON_FA_SPR "\xEF\x87\x85"
+#define ICON_FA_FONT "\xEF\xA1\xA6"
+#define ICON_FA_SND "\xEF\x87\x87"
+#define ICON_FA_SONG "\xEF\xA2\xB6"
+#define ICON_FA_VO "\xEF\x87\x87"
+#define ICON_FA_ANIM "\xEE\x8A\x9C"
+#define ICON_FA_LOC "\xEF\x8C\x9C"
+#define ICON_FA_MOD "\xEF\x86\x83"
 
 #define IMGUI_INDENT 16.0f
 

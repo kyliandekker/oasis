@@ -73,7 +73,7 @@ namespace ImGui
 
     bool CheckboxButton(const char* label, bool* p_value, const ImVec2& size_arg)
     {
-        ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Slider);
+        ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);
         ImVec4 color_inactive = ImVec4(0, 0, 0, 0);
         if (*p_value)
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, color);
@@ -89,7 +89,7 @@ namespace ImGui
 
 	bool CheckboxText(const char* label, bool* p_value, const std::string& checked_text, const std::string& unchecked_text, const ImVec2& size_arg)
 	{
-		ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Slider);
+		ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);
 		ImVec4 color_inactive = ImVec4(0, 0, 0, 0);
 		bool b = InvisButton(label, size_arg, IM_COL32(0, 0, 0, 0));
 		std::string test = (*p_value ? checked_text : unchecked_text);
@@ -196,34 +196,26 @@ namespace ImGui
 
 	bool EngineTreeNodeExS(const char* id, const char* icon, const char* label, bool& clicked, bool& right_clicked, bool selected, ImVec2 size, ImGuiTreeNodeFlags flags)
 	{
-		// Get the current draw list
 		ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
-		// Record the current cursor position (top-left of the node)
-		ImVec2 pos = ImGui::GetCursorScreenPos();  // Use GetCursorScreenPos instead of GetCursorPos for absolute positioning
+		ImVec2 pos = ImGui::GetCursorScreenPos();
 
-		// Begin the tree node
 		const bool fold = ImGui::TreeNodeExS(id, size, flags);
 
-		// Detect clicks on the item
 		clicked = ImGui::IsItemHovered() && ImGui::IsItemClicked(0);
 		right_clicked = ImGui::IsItemHovered() && ImGui::IsItemClicked(1);
 
-		// Get the size of the current item (the tree node)
-		ImVec2 itemSize = ImGui::GetItemRectSize();  // Get the actual item size
+		ImVec2 itemSize = ImGui::GetItemRectSize();
 
-		// Calculate rectangle positions (min and max points)
 		ImVec2 select_min = pos;
 		ImVec2 select_max = ImVec2(pos.x + itemSize.x, pos.y + itemSize.y);
 
-		// If selected, draw the background overlay
 		if (selected)
 		{
-			ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);  // Get the style color
-			ImU32 select_color = ImGui::ColorConvertFloat4ToU32(color);  // Convert to ImU32 color
+			ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);
+			ImU32 select_color = ImGui::ColorConvertFloat4ToU32(color);
 
-			// Draw the rectangle behind the text/icon
-			draw_list->AddRectFilled(select_min, select_max, select_color, 0);  // No rounding
+			draw_list->AddRectFilled(select_min, select_max, select_color, 0);
 		}
 
 		// Adjust icon and label positions after the tree node is drawn
@@ -258,21 +250,18 @@ namespace ImGui
     bool SearchBar(float fontSize, const char* label, char* buf, size_t buf_size, ImVec2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
     {
 		float x = ImGui::GetCursorPosX();
-		ImGui::SetCursorPosX(x + fontSize / 2);
-		ImGui::Text(ICON_FA_SEARCH);
 
-		ImGui::SameLine();
-		ImGui::SetCursorPosX(x);
-
-		ImVec2 initialPadding = ImGui::GetStyle().FramePadding;
 		float paddingY = 4.0f;
-		float inputTextHeight = 32 - (17.5f + (paddingY * 2));
-		float heightDiff = inputTextHeight / 2.0f;
-		ImGui::SetCursorPosY(ImGui::GetCursorPosY() + heightDiff);
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(fontSize * 2.0f, paddingY));
 		ImGui::SetNextItemWidth(size.x);
 		bool b = ImGui::InputText(label, buf, buf_size, flags, callback, user_data);
 		ImGui::PopStyleVar();
+
+		ImGui::SameLine();
+
+		ImGui::SetCursorPosX(x + fontSize / 2);
+		ImGui::Text(ICON_FA_SEARCH);
+
         return b;
     }
 
@@ -295,7 +284,7 @@ namespace ImGui
         const ImGuiStyle& style = g.Style;
 
         // Draw frame
-        RenderFrame(frame_bb.Min, frame_bb.Max, GetColorU32(ImGuiCol_Slider), true, style.FrameRounding);
+        RenderFrame(frame_bb.Min, frame_bb.Max, GetColorU32(ImGuiCol_Button), true, style.FrameRounding);
 
         const bool is_non_linear = (power < 1.0f - 0.00001f) || (power > 1.0f + 0.00001f);
         const bool is_horizontal = (flags & ImGuiSliderFlags_Vertical) == 0;

@@ -12,14 +12,30 @@ namespace oasis
 {
 	namespace imgui
 	{
-		ExplorerWindow::ExplorerWindow(ImGuiWindow& a_Window) : BaseWindow(a_Window, ImGuiWindowFlags_NoCollapse, std::string(ICON_FA_FOLDER) + " Explorer", "Explorer")
+		ExplorerWindow::ExplorerWindow(ImGuiWindow& a_Window) : BaseWindow(a_Window, ImGuiWindowFlags_NoCollapse, std::string(ICON_FA_EXPLORER) + " Explorer", "Explorer")
 		{
 			m_ExplorerResource.m_Path = "./assets";
 			m_ExplorerResource.m_FoldedOut = true;
 			m_ExplorerResource.Scan();
 
-			m_ExplorerResourceWindow2 = &m_ExplorerResource;
+			m_ExplorerRoot = &m_ExplorerResource;
 		}
+
+		std::vector<std::string> RESOURCE_ICONS =
+		{
+			ICON_FA_CFG,
+			ICON_FA_MAP,
+			ICON_FA_MAT,
+			ICON_FA_TEX,
+			ICON_FA_SPR,
+			ICON_FA_FONT,
+			ICON_FA_SND,
+			ICON_FA_SONG,
+			ICON_FA_VO,
+			ICON_FA_ANIM,
+			ICON_FA_LOC,
+			ICON_FA_MOD,
+		};
 
 		void ExplorerWindow::RenderResource(ExplorerResource& a_Resource, bool a_RenderFoldersOnly, bool a_ShowSelf)
 		{
@@ -65,7 +81,8 @@ namespace oasis
 
 						if (clicked)
 						{
-							m_ExplorerResourceWindow2 = &a_Resource;
+							m_NeedsRefresh = true;
+							m_ExplorerRoot = &a_Resource;
 							m_SelectedResource = &a_Resource;
 						}
 
@@ -81,7 +98,7 @@ namespace oasis
 						{
 							for (auto& resource : a_Resource.m_ExplorerResources)
 							{
-								RenderResource(resource);
+								RenderResource(resource, a_RenderFoldersOnly);
 							}
 							ImGui::TreePop();
 						}
@@ -98,7 +115,8 @@ namespace oasis
 
 						if (clicked)
 						{
-							m_ExplorerResourceWindow2 = &a_Resource;
+							m_NeedsRefresh = true;
+							m_ExplorerRoot = &a_Resource;
 							m_SelectedResource = &a_Resource;
 						}
 
@@ -121,7 +139,8 @@ namespace oasis
 
 					if (ImGui::IsItemHovered() && ImGui::IsItemClicked(0))
 					{
-						m_ExplorerResourceWindow2 = &a_Resource;
+						m_NeedsRefresh = true;
+						m_ExplorerRoot = &a_Resource;
 					}
 
 					if (opened)
@@ -134,11 +153,13 @@ namespace oasis
 			{
 				for (auto& resource : a_Resource.m_ExplorerResources)
 				{
-					RenderResource(resource);
+					RenderResource(resource, a_RenderFoldersOnly);
 				}
 			}
 		}
 
+		char SEARCHSTRING_EXPLORER[256] = { '\0' };
+		std::string searchStringExplorer;
 		void ExplorerWindow::Render()
 		{
 			auto createNewFolder = [](const imgui::ExplorerResource& a_Folder)
@@ -150,9 +171,15 @@ namespace oasis
 
 			m_ShowContextMenu = false;
 
+			float windowWidth = ImGui::GetContentRegionAvail().x;
+			if (ImGui::SearchBar(m_Window.FontSize(), IMGUI_FORMAT_ID("", INPUT_ID, "SEARCH_FILES_EXPLORER").c_str(), SEARCHSTRING_EXPLORER, sizeof(SEARCHSTRING_EXPLORER), ImVec2(windowWidth, m_Window.FontSize())))
+			{
+				m_NeedsRefresh = true;
+			}
+
 			float x = ImGui::GetContentRegionAvail().x;
 			float explorerWidth = x * 0.15f;
-			if (ImGui::BeginChild("Test", ImVec2(explorerWidth, 0), true, ImGuiChildFlags_ResizeX))
+			if (ImGui::BeginChild(IMGUI_FORMAT_ID("", CHILD_ID, "DIRECTORIES_EXPLORER").c_str(), ImVec2(explorerWidth, 0), true, ImGuiChildFlags_ResizeX))
 			{
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 				RenderResource(m_ExplorerResource, true, true);
@@ -160,10 +187,67 @@ namespace oasis
 			}
 			x -= explorerWidth;
 			ImGui::EndChild();
-			ImGui::SameLine();
-			if (ImGui::BeginChild("Fsad", ImVec2(x, 0)))
+
+			if (m_NeedsRefresh && m_ExplorerRoot)
 			{
-				ImGui::Text("aah");
+				m_ResourcesToShow.clear();
+
+				m_NeedsRefresh = false;
+
+				searchStringExplorer = string_extensions::StringToLower(std::string(SEARCHSTRING_EXPLORER));
+				bool isEmptyString = searchStringExplorer.empty();
+
+				for (auto& resource : m_ExplorerRoot->m_ExplorerResources)
+				{
+					if (isEmptyString || string_extensions::StringToLower(resource.m_Name).find(searchStringExplorer) != std::string::npos)
+					{
+						m_ResourcesToShow.push_back(&resource);
+					}
+				}
+			}
+
+			ImGui::SameLine();
+			if (ImGui::BeginChild(IMGUI_FORMAT_ID("", CHILD_ID, "FILES_EXPLORER").c_str(), ImVec2(0, 0), true, ImGuiChildFlags_ResizeX))
+			{
+				if (m_ExplorerRoot)
+				{
+					ImVec4 textColor = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+					textColor.w = 0.5f;
+					for (size_t i = 0; i < m_ExplorerRoot->m_ParentNames.size(); i++)
+					{
+						ImGui::TextColored(textColor, m_ExplorerRoot->m_ParentNames[i].c_str());
+						if (i < m_ExplorerRoot->m_ParentNames.size() - 1)
+						{
+							ImGui::SameLine();
+							ImGui::TextColored(textColor, ICON_FA_ARROW_RIGHT);
+							ImGui::SameLine();
+						}
+					}
+
+					ImGui::Separator();
+
+					for (auto& item : m_ResourcesToShow)
+					{
+						if (!item)
+						{
+							continue;
+						}
+
+						ImVec2 pos = ImGui::GetCursorScreenPos();
+
+						ImGui::SetCursorScreenPos(ImVec2(pos.x + 10, pos.y));  // Set label position
+						if (item->m_ExplorerResourceType == ExplorerResourceType::Folder)
+						{
+							ImGui::Text(ICON_FA_FOLDER);
+						}
+						else
+						{
+							ImGui::Text(RESOURCE_ICONS[(int)item->m_AssetType].c_str());
+						}
+						ImGui::SetCursorScreenPos(ImVec2(pos.x + 35, pos.y));  // Set label position
+						ImGui::Text(item->m_Name.c_str());
+					}
+				}
 			}
 			ImGui::EndChild();
 

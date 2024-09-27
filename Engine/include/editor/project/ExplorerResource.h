@@ -35,6 +35,7 @@ namespace oasis
 			ExplorerResourceType m_ExplorerResourceType = ExplorerResourceType::Folder;
 			asset::AssetType m_AssetType;
 			ExplorerResource* m_Parent = nullptr;
+			std::vector<std::string> m_ParentNames;
 			ExplorerResourceEditMode m_ResourceEditMode = ExplorerResourceEditMode::None;
 
 			void Scan();

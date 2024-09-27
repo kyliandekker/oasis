@@ -33,6 +33,13 @@ namespace oasis
 #endif // __EDITOR__
 			switch (msg)
 			{
+				case WM_SETFOCUS:
+				{
+#ifdef __EDITOR__
+
+#endif // __EDITOR__
+					break;
+				}
 				case WM_EXITSIZEMOVE:
 				{
 					Window& window = core::engine.GetWindow();

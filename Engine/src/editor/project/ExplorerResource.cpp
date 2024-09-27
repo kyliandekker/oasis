@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iostream>
 #include <wtypes.h>
+#include <FileStructure.h>
 
 namespace fs = std::filesystem;
 
@@ -19,18 +20,47 @@ namespace oasis
 			return path;
 		}
 
-		std::string GetName(std::string path)
+		std::string GetName(const std::string& path)
 		{
 			return path.substr(path.find_last_of("/\\") + 1);
 		}
 
-		inline std::string getExtensionFromPath(std::string path, bool include_dot = false)
+		inline std::string getExtensionFromPath(const std::string& path, bool include_dot = false)
 		{
 			return path.substr(path.find_last_of(".") + (include_dot ? 0 : 1));
 		}
 
+		std::vector<std::string> GetParentNames(const std::string& path)
+		{
+			std::stringstream ss(path);
+			std::string token;
+			std::vector<std::string> folders;
+
+			while (std::getline(ss, token, '/'))
+			{
+				if (token != ".")
+				{
+					folders.push_back(token);
+				}
+			}
+			return folders;
+		}
+
 		void ExplorerResource::Scan()
 		{
+			const std::unordered_map<std::string, asset::AssetType> WAT =
+			{
+				{ "cfg", asset::AssetType::Cfg },
+				{ "scene", asset::AssetType::Map },
+				{ "mat", asset::AssetType::Material },
+				{ "png", asset::AssetType::Sprite },
+				{ "tif", asset::AssetType::Sprite },
+				{ "bmp", asset::AssetType::Sprite },
+				{ "wav", asset::AssetType::Sound },
+				{ "anim", asset::AssetType::Animation },
+				{ "loc", asset::AssetType::Localization },
+				{ "gltf", asset::AssetType::Model },
+			};
 			m_Path = ReplaceSlashes(m_Path);
 			m_Name = GetName(m_Path);
 
@@ -38,6 +68,8 @@ namespace oasis
 			{
 				m_Name = m_Path;
 			}
+
+			m_ParentNames = GetParentNames(m_Path);
 
 			if (fs::is_directory(m_Path))
 			{
@@ -71,25 +103,26 @@ namespace oasis
 						continue;
 					}
 
-					ExplorerResource ExplorerResource;
-					ExplorerResource.m_Path = pa;
-					ExplorerResource.m_Parent = this;
+					ExplorerResource explorerResource;
+					explorerResource.m_Path = pa;
+					explorerResource.m_Parent = this;
 
 					if (!fs::is_directory(pa))
 					{
 						std::string extension = getExtensionFromPath(pa);
-						// Check if it is a MD file.
-						if (extension.compare("MD") == 0 || extension.compare("md") == 0)
+
+						explorerResource.m_ExplorerResourceType = ExplorerResourceType::File;
+
+						for (auto pair : WAT)
 						{
-							ExplorerResource.m_ExplorerResourceType = ExplorerResourceType::File;
-						}
-						else
-						{
-							continue;
+							if (pair.first == extension || pair.first == string_extensions::StringToLower(extension))
+							{
+								explorerResource.m_AssetType = pair.second;
+							}
 						}
 					}
 
-					m_ExplorerResources.push_back(ExplorerResource);
+					m_ExplorerResources.push_back(explorerResource);
 				}
 			}
 

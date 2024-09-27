@@ -69,16 +69,6 @@ namespace oasis
 			return false;
 		}
 
-		std::vector<COMDLG_FILTERSPEC> GetFilters(assets::AssetType a_AssetType)
-		{
-			const std::vector<COMDLG_FILTERSPEC> filters =
-			{
-				FILTERS[(int)a_AssetType]
-			};
-
-			return filters;
-		}
-
 		double Random(double a_Min, double a_Max)
 		{
 			float r = (float)rand() / (float)RAND_MAX;
