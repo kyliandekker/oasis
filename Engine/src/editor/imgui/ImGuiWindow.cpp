@@ -38,9 +38,11 @@ namespace oasis
 			graphics::Window& window = core::engine.GetWindow();
 			dx12::DX12Window& dx12window = window.GetDX12Window();
 
-			logger::logger.m_LoggerCallback = std::bind(&ConsoleWindow::LoggerCallback, &consoleWindow, std::placeholders::_1);
+			// For some reason it needs to be here.
+			logger::logger.OnMessageLogged += std::bind(&ConsoleWindow::LoggerCallback, &consoleWindow, std::placeholders::_1);
 
 			LOGF(logger::LOGSEVERITY_SUCCESS, "Created ImGui.");
+
 			return true;
 		}
 

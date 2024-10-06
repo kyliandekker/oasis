@@ -1,5 +1,6 @@
 #include "editor/settings/EditorSettings.h"
 
+// TODO: Remove.
 #include <ShlObj_core.h>
 #include <filesystem>
 
@@ -7,6 +8,7 @@
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/prettywriter.h>
+#include <string>
 
 #include "DataStream.h"
 #include "system/FileLoader.h"
@@ -140,6 +142,7 @@ namespace oasis
 			return true;
 		}
 
+		// TODO: Move this into file system.
 		std::string EditorSettings::GetAppDataPath() const
 		{
 			PWSTR path_tmp;

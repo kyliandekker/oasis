@@ -37,7 +37,7 @@ namespace oasis
 		/// </summary>
 		virtual bool Write(void const* a_Data, size_t a_Size);
 
-		bool Save(const std::string a_Path = "D:/test.txt") const;
+		bool Save(const std::string& a_Path) const;
 
 		bool Seek(size_t a_Offset, size_t a_Whence);
 		size_t Tell() const;

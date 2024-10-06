@@ -1,12 +1,12 @@
 #pragma once
 
-#include <stdint.h>
 #include <assert.h>
 #include <queue>
 #include <thread>
 #include <string>
-#include <functional>
 #include <mutex>
+
+#include "utils/Event.h"
 
 namespace oasis
 {
@@ -44,7 +44,7 @@ namespace oasis
 
 			bool Running() const;
 
-			std::function<void(const Message&)> m_LoggerCallback;
+			Event<const Message&> OnMessageLogged;
 		private:
 			bool m_Running = false;
 			std::queue<Message> m_Messages;

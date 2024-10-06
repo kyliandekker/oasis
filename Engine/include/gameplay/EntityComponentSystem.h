@@ -21,7 +21,7 @@ namespace oasis
 			void SetPaused(bool a_Paused);
 
 			EntityID& CreateEntity();
-			void DeleteEntity(EntityID a_ID);
+			void DeleteEntity(EntityID& a_ID);
 			bool IsEntityValid(EntityID& a_ID) const;
 
 			template <class T, typename... Args>
@@ -93,7 +93,11 @@ namespace oasis
 			std::vector<EntityID> m_Entities;
 			std::vector<EntityID> m_View;
 			unsigned int m_NextID = 0;
+#ifdef __EDITOR__
+			bool m_Paused = true;
+#elif
 			bool m_Paused = false;
+#endif //__EDITOR__
 		};
 		inline extern EntityComponentSystem ECS = {};
 	}

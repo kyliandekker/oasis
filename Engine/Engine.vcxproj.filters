@@ -30,7 +30,7 @@
     <ClInclude Include="include\DataStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AssetType.h">
+    <ClInclude Include="include\assets\AssetType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\utils\Utils.h">
@@ -120,7 +120,16 @@
     <ClInclude Include="include\editor\imgui\tools\ExplorerWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\editor\project\ExplorerResource.h">
+    <ClInclude Include="include\assets\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\AssetDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\assets\MetaData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -233,7 +242,13 @@
     <ClCompile Include="src\editor\imgui\tools\ExplorerWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\project\ExplorerResource.cpp">
+    <ClCompile Include="src\assets\Resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\AssetDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assets\MetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

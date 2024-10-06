@@ -1,5 +1,7 @@
 #include "utils/RapidJsonUtils.h"
 
+#include <string>
+
 namespace rapidjson
 {
 	bool GetString(rapidjson::Value& a_Document, const std::string& a_Key, std::string& a_Value)
@@ -57,4 +59,18 @@ namespace rapidjson
 		a_Value = a_Document[a_Key.c_str()].GetInt64();
 		return true;
 	}
+
+    bool GetInt(rapidjson::Value& a_Document, const std::string& a_Key, int& a_Value)
+    {
+		if (!a_Document.HasMember(a_Key.c_str()))
+		{
+			return false;
+		}
+		if (!a_Document[a_Key.c_str()].IsInt())
+		{
+			return false;
+		}
+		a_Value = a_Document[a_Key.c_str()].GetInt();
+		return true;
+    }
 }

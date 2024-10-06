@@ -33,7 +33,7 @@ namespace oasis
 			return m_Entities[SizeVector];
 		}
 
-		void EntityComponentSystem::DeleteEntity(EntityID a_ID)
+		void EntityComponentSystem::DeleteEntity(EntityID& a_ID)
 		{
 			a_ID.SetInvalid();
 			for (auto& sys : m_Systems)

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <cassert>
 #include <vcruntime_string.h>
+#include <string>
 
 #include "system/FileLoader.h"
 
@@ -78,7 +79,7 @@ namespace oasis
 		}
 	}
 
-	bool Data::Save(const std::string a_Path) const
+	bool Data::Save(const std::string& a_Path) const
 	{
 		return file::FileLoader::SaveFile(a_Path, *this);
 	}

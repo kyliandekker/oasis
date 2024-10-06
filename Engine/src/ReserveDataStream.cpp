@@ -53,7 +53,7 @@ namespace oasis
 		return true;
 	}
 
-    bool ReserveDataStream::Save(const std::string a_Path) const
+    bool ReserveDataStream::Save(const std::string& a_Path) const
     {
 		return DataStream::Save(a_Path);
     }

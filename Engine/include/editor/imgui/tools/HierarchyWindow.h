@@ -6,8 +6,6 @@
 
 #include <vector>
 
-#include "editor/imgui/ImGuiUIView.h"
-
 // TODO: Remove this include.
 #include "editor/imgui/ImGuiDefines.h"
 

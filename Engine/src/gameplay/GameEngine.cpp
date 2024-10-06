@@ -3,7 +3,7 @@
 #include "system/Logger.h"
 #include "core/Engine.h"
 #include "gameplay/EntityComponentSystem.h"
-#include "gameplay/gameplay_systems//TransformSystem.h"
+#include "gameplay/gameplay_systems/TransformSystem.h"
 
 namespace oasis
 {

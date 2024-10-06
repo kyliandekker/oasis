@@ -2,10 +2,8 @@
 
 #include <windows.h>
 #include <ShlObj_core.h>
+#include <string>
 #include <time.h>
-
-#include "AssetType.h"
-#include <FileStructure.h>
 
 namespace oasis
 {
@@ -59,14 +57,10 @@ namespace oasis
 			return genericFileOpen(a_Path, CLSID_FileOpenDialog, 0, a_Filters);
 		}
 
-		bool SaveFile(std::string& a_Path, int* a_Choice, const std::vector<COMDLG_FILTERSPEC>& a_Filters)
+		bool SaveFile(const std::string& a_Path, int* a_Choice, const std::vector<COMDLG_FILTERSPEC>& a_Filters)
 		{
-			return genericFileOpen(a_Path, CLSID_FileSaveDialog, 0, a_Filters);
-		}
-
-		bool SaveFolder(std::string& a_Path)
-		{
-			return false;
+			std::string path = a_Path;
+			return genericFileOpen(path, CLSID_FileSaveDialog, 0, a_Filters);
 		}
 
 		double Random(double a_Min, double a_Max)

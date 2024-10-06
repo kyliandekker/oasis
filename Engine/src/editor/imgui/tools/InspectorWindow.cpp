@@ -21,15 +21,13 @@ namespace oasis
 		{
 			ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
-			// Define the position and size of your button
-			ImVec2 button_pos = ImGui::GetCursorScreenPos();
-			ImVec2 button_size = ImVec2(ImGui::GetContentRegionAvail().x, 32 * 2); // Width, Height
+			ImVec2 header_pos = ImGui::GetCursorScreenPos();
+			ImVec2 header_size = ImVec2(ImGui::GetContentRegionAvail().x, 32 * 2); // Width, Height
 
-			// Calculate the rectangle for the button
-			ImVec2 button_min = button_pos;
-			ImVec2 button_max = ImVec2(button_pos.x + button_size.x, button_pos.y + button_size.y);
+			ImVec2 header_min = header_pos;
+			ImVec2 header_max = ImVec2(header_pos.x + header_size.x, header_pos.y + header_size.y);
 
-			draw_list->AddRectFilled(button_min, button_max, ImGui::ImColorConvertFloat4ToU32(ImGui::GetStyleColorVec4(ImGuiCol_Button)), 0);
+			draw_list->AddRectFilled(header_min, header_max, ImGui::ImColorConvertFloat4ToU32(ImGui::GetStyleColorVec4(ImGuiCol_Button)), 0);
 
 			float y = ImGui::GetCursorPosY();
 			float x = ImGui::GetCursorPosX() + m_Window.FontSize();
@@ -50,7 +48,7 @@ namespace oasis
 			ImGui::PopStyleVar();
 
 			ImGui::SetCursorPosY(y);
-			if (ImGui::InvisibleButton(IMGUI_FORMAT_ID(ICON_FA_ADD, BUTTON_ID, "ADD_MENU_HIERARCHY").c_str(), button_size))
+			if (ImGui::InvisibleButton(IMGUI_FORMAT_ID(ICON_FA_ADD, BUTTON_ID, "ADD_MENU_HIERARCHY").c_str(), header_size))
 			{ }
 
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <rapidjson/document.h>
+#include <string>
 
 namespace rapidjson
 {
@@ -12,4 +12,6 @@ namespace rapidjson
 	bool GetBool(rapidjson::Value& a_Document, const std::string& a_Key, bool& a_Value);
 
 	bool GetLong(rapidjson::Value& a_Document, const std::string& a_Key, long long& a_Value);
+
+	bool GetInt(rapidjson::Value& a_Document, const std::string& a_Key, int& a_Value);
 }

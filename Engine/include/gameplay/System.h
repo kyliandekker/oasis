@@ -14,15 +14,15 @@ namespace oasis
 		public:
 			GameplaySystem(unsigned int priority) : Priority(priority) {}
 
-			virtual void DeleteComponent(EntityID id) { (void)id; };
+			virtual void DeleteComponent(EntityID& id) { (void)id; };
 			virtual void Update(float deltaTime) = 0;
-			virtual bool IsIdHere(EntityID id)
+			virtual bool IsIdHere(EntityID& id)
 			{
 				(void)id;
 				return false;
 			};
 			virtual bool HasComponents() { return false; };
-			virtual void* GetComponentData(EntityID id, size_t& size) { (void)id; size = 0; return nullptr; };
+			virtual void* GetComponentData(EntityID& id, size_t& size) { (void)id; size = 0; return nullptr; };
 			const unsigned int Priority = 0;
 		};
 
@@ -36,7 +36,7 @@ namespace oasis
 				m_Components.clear();
 			};
 			template <typename... Args>
-			ComponentType& CreateComponent(EntityID id, Args... args)
+			ComponentType& CreateComponent(EntityID& id, Args... args)
 			{
 				assert(!IsIdHere(id));
 				ComponentType t(args...);
@@ -49,12 +49,12 @@ namespace oasis
 				return m_Components.size();
 			}
 
-			bool IsIdHere(EntityID id)
+			bool IsIdHere(EntityID& id)
 			{
 				return m_Components.count(id) == 1;
 			}
 
-			ComponentType& GetComponent(EntityID id)
+			ComponentType& GetComponent(EntityID& id)
 			{
 				if (!id.IsValid())
 				{
@@ -63,7 +63,7 @@ namespace oasis
 				return m_Components.at(id);
 			}
 
-			ComponentType* TryGet(EntityID id)
+			ComponentType* TryGet(EntityID& id)
 			{
 				if (!IsIdHere(id))
 					return nullptr;
@@ -71,7 +71,7 @@ namespace oasis
 					return &m_Components.at(id);
 			};
 
-			void* GetComponentData(EntityID id, size_t& size)
+			void* GetComponentData(EntityID& id, size_t& size)
 			{
 				ComponentType& comp = GetComponent(id);
 				size = sizeof(ComponentType);
@@ -79,7 +79,7 @@ namespace oasis
 			};
 			bool HasComponents() override { return true; };
 
-			virtual void DeleteComponent(EntityID id)
+			virtual void DeleteComponent(EntityID& id)
 			{
 				if (id.IsValid() && IsIdHere(id))
 				{

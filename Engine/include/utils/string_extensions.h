@@ -7,6 +7,8 @@ namespace oasis
 {
 	namespace string_extensions
 	{
+		// TODO: Move into cpp.
+
 		inline std::string ReplaceSlashes(std::string path)
 		{
 			std::replace(path.begin(), path.end(), '\\', '/');

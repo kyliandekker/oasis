@@ -4,12 +4,7 @@
 
 #include "core/BaseSystem.h"
 
-#include <cstdint>
-#include <string>
-#include <vector>
 #include <windows.h>
-
-#include <imgui/imgui.h>
 
 #include "editor/imgui/tools/MainWindow.h"
 #include "editor/imgui/tools/HierarchyWindow.h"

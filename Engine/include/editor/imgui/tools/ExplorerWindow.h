@@ -2,11 +2,17 @@
 
 #ifdef __EDITOR__
 
+#include <vector>
+
 #include "editor/imgui/tools/BaseWindow.h"
-#include "editor/project/ExplorerResource.h"
 
 namespace oasis
 {
+	namespace assets
+	{
+		class Resource;
+	}
+
 	namespace imgui
 	{
 		class ImGuiWindow;
@@ -14,19 +20,21 @@ namespace oasis
 		class ExplorerWindow : public BaseWindow
 		{
 		public:
-			ExplorerResource m_ExplorerResource;
-
-			ExplorerResource* m_SelectedResource = nullptr;
-			ExplorerResource* m_SelectedResource2 = nullptr;
-			ExplorerResource* m_ExplorerRoot = nullptr;
+			assets::Resource* m_SelectedResource = nullptr;
+			assets::Resource* m_SelectedResource2 = nullptr;
+			assets::Resource* m_ExplorerRoot = nullptr;
 
 			bool m_ShowContextMenu = false;
+			bool m_ShowExplorerInspector = false;
 			bool m_NeedsRefresh = true;
 
-			std::vector<ExplorerResource*> m_ResourcesToShow;
+			char SEARCHSTRING_EXPLORER[256] = { '\0' };
+			char EXPLORER_INSPECTOR_RENAME_RESOURCE[256] = { '\0' };
+
+			std::vector<assets::Resource*> m_ResourcesToShow;
 
 			ExplorerWindow(ImGuiWindow& a_Window);
-			void RenderResource(imgui::ExplorerResource& a_Resource, bool a_RenderFoldersOnly = false, bool a_ShowSelf = true);
+			void RenderResource(assets::Resource& a_Resource, bool a_RenderFoldersOnly = false, bool a_ShowSelf = true);
 			void Render() override;
 		};
 	}

@@ -61,19 +61,23 @@ namespace oasis
 #define ICON_FA_INFO_SUCCESS "\xEE\x84\x8D"
 #define ICON_FA_AWESOME "\xEF\x93\x87"
 
-/* RESOURCE ICONS */
-#define ICON_FA_CFG "\xEF\x80\x93"
-#define ICON_FA_MAP "\xEE\x99\x8C"
-#define ICON_FA_MAT "\xEF\x9C\x9E"
-#define ICON_FA_TEX "\xEF\x87\x85"
-#define ICON_FA_SPR "\xEF\x87\x85"
-#define ICON_FA_FONT "\xEF\xA1\xA6"
-#define ICON_FA_SND "\xEF\x87\x87"
-#define ICON_FA_SONG "\xEF\xA2\xB6"
-#define ICON_FA_VO "\xEF\x87\x87"
-#define ICON_FA_ANIM "\xEE\x8A\x9C"
-#define ICON_FA_LOC "\xEF\x8C\x9C"
-#define ICON_FA_MOD "\xEF\x86\x83"
+/* ASSET ICONS */
+#define ICON_FA_ASSET_CFG "\xEF\x80\x93"
+#define ICON_FA_ASSET_SCENE "\xEF\x80\x8A"
+#define ICON_FA_ASSET_MAT "\xEF\x9C\x9E"
+#define ICON_FA_ASSET_TEX "\xEF\x87\x85"
+#define ICON_FA_ASSET_SPR "\xEF\x87\x85"
+#define ICON_FA_ASSET_FONT "\xEF\xA1\xA6"
+#define ICON_FA_ASSET_SND "\xEF\x87\x87"
+#define ICON_FA_ASSET_SONG "\xEF\xA2\xB6"
+#define ICON_FA_ASSET_VO "\xEF\x87\x87"
+#define ICON_FA_ASSET_ANIM "\xEE\x8A\x9C"
+#define ICON_FA_ASSET_LOC "\xEF\x8C\x9C"
+#define ICON_FA_ASSET_MOD "\xEF\x97\x8B"
+
+/* SCENE WINDOW */
+#define ICON_FA_PLAY "\xEF\x81\x8B"
+#define ICON_FA_PAUSE "\xEF\x81\x8C"
 
 #define IMGUI_INDENT 16.0f
 
@@ -83,6 +87,7 @@ namespace oasis
 #define POPUP_WINDOW_BUTTON_ID "###POPUP_DIALOG_SAVE_BUTTON_%s"
 #define CHILD_ID "###CHILD_%s"
 #define BUTTON_ID "###BUTTON_%s"
+#define COMBO_ID "###COMBO_%s"
 #define WINDOW_ID "###WINDOW_%s"
 #define MENU_ITEM_ID "###MENU_ITEM_%s"
 #define TREE_NODE_ID "###TREE_NODE_%s"
@@ -91,6 +96,7 @@ namespace oasis
 #define CHECKBOX_ID "###CHECKBOX_%s"
 #define FOLD_ID "###CHECKBOX_%s"
 #define DRAG_ITEM_ID "###DRAG_ITEM_%s"
+#define SELECTABLE_ID "###SELECTABLE_%s"
 	}
 }
 

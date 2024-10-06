@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdint.h>
 #include <glm/vec2.hpp>
 
 #include "dx12/DX12Window.h"

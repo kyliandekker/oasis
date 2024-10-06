@@ -29,7 +29,7 @@ namespace oasis
 
 		virtual void Free();
 
-		bool Save(const std::string a_Path = "D:/test.txt") const;
+		bool Save(const std::string& a_Path) const;
 
 		unsigned char operator [] (int i) const { return reinterpret_cast<unsigned char*>(m_Data)[i]; }
 		unsigned char& operator [] (int i) { return reinterpret_cast<unsigned char*>(m_Data)[i]; }

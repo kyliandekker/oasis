@@ -27,10 +27,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\AssetType.h" />
+    <ClInclude Include="include\assets\MetaData.h" />
+    <ClInclude Include="include\assets\AssetType.h" />
     <ClInclude Include="include\core\BaseSystem.h" />
     <ClInclude Include="include\core\Engine.h" />
     <ClInclude Include="include\editor\imgui\tools\ExplorerWindow.h" />
+    <ClInclude Include="include\assets\AssetDatabase.h" />
     <ClInclude Include="include\gameplay\EntityComponentSystem.h" />
     <ClInclude Include="include\gameplay\EntityID.h" />
     <ClInclude Include="include\gameplay\GameEngine.h" />
@@ -53,11 +55,12 @@
     <ClInclude Include="include\gameplay\gameplay_systems\ResourceLoader.h" />
     <ClInclude Include="include\graphics\Window.h" />
     <ClInclude Include="include\Hash.h" />
-    <ClInclude Include="include\editor\project\ExplorerResource.h" />
+    <ClInclude Include="include\assets\Resource.h" />
     <ClInclude Include="include\ReserveDataStream.h" />
     <ClInclude Include="include\system\FileLoader.h" />
     <ClInclude Include="include\system\Logger.h" />
     <ClInclude Include="include\utils\Abstractions.h" />
+    <ClInclude Include="include\utils\Event.h" />
     <ClInclude Include="include\utils\RapidJsonUtils.h" />
     <ClInclude Include="include\utils\string_extensions.h" />
     <ClInclude Include="include\utils\Utils.h" />
@@ -76,8 +79,10 @@
     <ClCompile Include="..\shared\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\shared\external\imgui\piano.cpp" />
     <ClCompile Include="..\shared\external\imgui\TextEditor.cpp" />
+    <ClCompile Include="src\assets\MetaData.cpp" />
     <ClCompile Include="src\core\Engine.cpp" />
     <ClCompile Include="src\editor\imgui\tools\ExplorerWindow.cpp" />
+    <ClCompile Include="src\assets\AssetDatabase.cpp" />
     <ClCompile Include="src\gameplay\EntityComponentSystem.cpp" />
     <ClCompile Include="src\gameplay\GameEngine.cpp" />
     <ClCompile Include="src\Data.cpp" />
@@ -96,7 +101,7 @@
     <ClCompile Include="src\gameplay\gameplay_systems\ResourceLoader.cpp" />
     <ClCompile Include="src\gameplay\gameplay_systems\TransformSystem.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
-    <ClCompile Include="src\editor\project\ExplorerResource.cpp" />
+    <ClCompile Include="src\assets\Resource.cpp" />
     <ClCompile Include="src\ReserveDataStream.cpp" />
     <ClCompile Include="src\system\FileLoader.cpp" />
     <ClCompile Include="src\system\Logger.cpp" />

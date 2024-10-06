@@ -1,5 +1,7 @@
 #include "imgui/imgui_helpers.h"
 
+#ifdef __EDITOR__
+
 #include <cmath>
 #include <cstdio>
 #include <string>
@@ -71,7 +73,7 @@ namespace ImGui
         draw_list->AddText(ImGui::GetFont(), ImGui::GetFontSize(), pos, ImColor(255, 255, 0, 255), "Hello World", 0, 0.0f, 0);
     }
 
-    bool CheckboxButton(const char* label, bool* p_value, const ImVec2& size_arg)
+	bool CheckboxButton(const char* label, bool* p_value, const ImVec2& size_arg)
     {
         ImVec4 color = ImGui::GetStyleColorVec4(ImGuiCol_Button);
         ImVec4 color_inactive = ImVec4(0, 0, 0, 0);
@@ -229,6 +231,29 @@ namespace ImGui
 		return fold;
 	}
 
+	bool EngineResourceNode(const char* id, const char* icon, const char* label, const char* label2, bool& clicked, bool& right_clicked, bool selected, ImVec2 size, ImGuiTreeNodeFlags flags)
+	{
+		ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+		ImVec2 pos = ImGui::GetCursorScreenPos();
+
+		clicked = ImGui::Selectable(id, &selected);
+		right_clicked = ImGui::IsItemHovered() && ImGui::IsItemClicked(1);
+
+		ImGui::SetCursorScreenPos(pos);
+		ImGui::SetCursorScreenPos(ImVec2(pos.x + 10, pos.y));
+		ImGui::Text(icon);
+		ImGui::SetCursorScreenPos(ImVec2(pos.x + 35, pos.y));
+		ImGui::Text(label);
+
+		ImGui::SetCursorScreenPos(ImVec2(pos.x + 300, pos.y));
+		ImVec4 textColor = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+		textColor.w = 0.5f;
+		ImGui::TextColored(textColor, label2);
+
+		return clicked;
+	}
+
 	int InvisInputText(const char* label, char* buf, size_t buf_size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
@@ -264,6 +289,15 @@ namespace ImGui
 
         return b;
     }
+
+	void DisplayHeader(ImFont* boldFont, const char* label)
+	{
+		ImGui::PushFont(boldFont);
+		ImGui::Text(label);
+		ImGui::PopFont();
+		ImGui::SameLine();
+		ImGui::Text(":");
+	}
 
     float RoundScalarWithFormatFloat(const char* format, ImGuiDataType data_type, float v)
     {
@@ -487,3 +521,5 @@ namespace ImGui
         return value_changed;
     }
 }
+
+#endif // __EDITOR__

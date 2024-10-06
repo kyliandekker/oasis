@@ -3,6 +3,9 @@
 #include <filesystem>
 #include <ShlObj_core.h>
 
+#include "Data.h"
+#include "DataStream.h"
+
 namespace fs = std::filesystem;
 
 namespace oasis
@@ -45,6 +48,15 @@ namespace oasis
 
 			return true;
 		}
+
+        bool FileLoader::DoesFileExist(const std::string& a_Path)
+        {
+			FILE* file = nullptr;
+			fopen_s(&file, a_Path.c_str(), "wb");
+			bool success = file != nullptr;
+			fclose(file);
+			return success;
+        }
 
         bool FileLoader::CreateFolder(const std::string& a_Path)
         {

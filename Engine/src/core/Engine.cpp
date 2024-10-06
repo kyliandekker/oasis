@@ -6,6 +6,7 @@
 #include "system/Logger.h"
 #include <cstdarg>
 #include "core/Scene.h"
+#include "assets/AssetDatabase.h"
 
 namespace oasis
 {
@@ -61,6 +62,8 @@ namespace oasis
 				std::this_thread::yield();
 			}
 			LOGF(logger::LOGSEVERITY_SUCCESS, "Engine initialized.");
+
+			assets::AssetDatabase::ScanAssetDatabase();
 
 			//			CopyWindowNameToString(windowTitle);
 			//			logger::LogInfo("RenderSystem.Initialize is called.");

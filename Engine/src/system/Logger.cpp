@@ -102,10 +102,7 @@ namespace oasis
 						nullptr
 					);
 
-					if (m_LoggerCallback)
-					{
-						m_LoggerCallback(lm);
-					}
+					OnMessageLogged(lm);
 				}
 				m_MessagesMutex.unlock();
 			}
